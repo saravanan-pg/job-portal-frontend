@@ -1,11 +1,13 @@
-function App() {
-  return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <h1 className="text-5xl font-extrabold text-green-400">
-        Job Portal
-      </h1>
-    </div>
-  );
-}
+import Navbar  from "./components/Navbar";
+import JobCard from "./components/Jobcard";
+import Jobs from "./pages/Jobs";
 
-export default App
+const App=() => {
+  return(
+    <div>
+      <Navbar/>
+      <Jobs/>
+    </div>
+  )
+}
+export default App;
