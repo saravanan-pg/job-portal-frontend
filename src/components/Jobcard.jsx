@@ -1,4 +1,7 @@
-const JobCard = ({ title, company, location, type }) => {
+import { useNavigate } from "react-router-dom";
+
+const JobCard = ({ id,title, company, location, type, }) => {
+  const navigate = useNavigate();
   return (
     <div className="bg-white border rounded-lg p-5 shadow hover:shadow-lg transition">
       <h2 className="text-lg font-semibold">{title}</h2>
@@ -9,9 +12,11 @@ const JobCard = ({ title, company, location, type }) => {
         <span className="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">
           {type}
         </span>
-        <button className="text-sm text-white bg-black px-4 py-1 rounded hover:bg-gray-800">
-          Apply
-        </button>
+        <button
+  onClick={() => navigate(`/jobs/${id}`)}
+  className="text-sm text-white bg-black px-4 py-1 rounded hover:bg-gray-800"
+>View
+</button>
       </div>
     </div>
   );
