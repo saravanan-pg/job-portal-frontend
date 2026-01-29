@@ -1,9 +1,36 @@
-import { useState } from "react";
-import JobCard from "../components/Jobcard";
+import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
+import JobCard from "../components/Jobcard";
+import jobs from "../Data/jobs";
+
 
 const Jobs = () => {
-  const jobs = [
+  const[searchTerm,setSearchTerm]=useState("");
+  const[filter, setFilter]=useState("All");
+  const[jobs, setJobs]=useState([]);
+  const [loading, setLoading]=useState(true);
+  const[error, setError]=useState(null);
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    setTimeout(() => {
+    try {
+      setJobs(jobsData);
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to load jobs");
+      setLoading(false);
+    }
+  }, 1000);
+}, []);
+if(error){
+  return(
+     <p className="text-center mt-10 text-red-500">
+      {error}
+     </p>
+  );
+}
+  const Jobs = [
     {
       id: 1,
       title: "Frontend Developer",
@@ -48,34 +75,36 @@ const Jobs = () => {
     },
   ];
 
-  const[filter, setFilter]=useState("All");
+   
   const[search,setSearch]=useState("");
   const filteredJobs = jobs.filter((job) => {
-  const matchesType =
-    filter === "All" || job.type === filter;
+  const search = searchTerm.toLowerCase();
 
   const matchesSearch =
-    job.title.toLowerCase().includes(search.toLowerCase()) ||
-    job.company.toLowerCase().includes(search.toLowerCase()) ||
-    job.location.toLowerCase().includes(search.toLowerCase());
+    job.title.toLowerCase().includes(search) ||
+    job.company.toLowerCase().includes(search) ||
+    job.location.toLowerCase().includes(search);
 
-  return matchesType && matchesSearch;
+  const matchesFilter =
+    filter === "All" ? true : job.type === filter;
+
+  return matchesSearch && matchesFilter;
 });
 
-  return (
-    <div className="min-h-screen bg-gray-100 py-10 px-6">
-  <h1 className="text-2xl font-bold mb-6 text-center">
-    Available Jobs
-  </h1>
+ return (
+  <div className="min-h-screen bg-gray-100 py-10 px-6">
+    <h1 className="text-2xl font-bold mb-6 text-center">
+      Available Jobs
+    </h1>
+    
+    <div className="max-w-xl mx-auto mb-6">
+      <SearchBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      />
+    </div>
 
-  <div className="max-w-4xl mx-auto flex flex-col md:flex-row gap-4 mb-8">
-    <input
-      type="text"
-      placeholder="Search by role, company, location"
-      className="flex-1 px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-black"
-    />
-
-    <div className="flex gap-2 justify-center">
+    <div className="flex justify-center gap-3 my-6">
       {["All", "Full-time", "Remote", "Internship"].map((item) => (
         <button
           key={item}
@@ -90,15 +119,24 @@ const Jobs = () => {
         </button>
       ))}
     </div>
-  </div>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-    {filteredJobs.map((job) => (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {loading ? (
+    <p className="text-center col-span-full mt-10">
+      Loading jobs...
+    </p>
+  ) : filteredJobs.length > 0 ? (
+    filteredJobs.map((job) => (
       <JobCard key={job.id} {...job} />
-    ))}
-  </div>
+    ))
+  ) : (
+    <p className="text-center col-span-full text-gray-500">
+      No jobs match your search
+    </p>
+  )}
 </div>
-  );
+  </div>
+);
 };
 
 export default Jobs;
