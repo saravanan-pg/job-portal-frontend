@@ -1,36 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SearchBar from "../components/SearchBar";
 import JobCard from "../components/Jobcard";
-import jobs from "../Data/jobs";
 
 
 const Jobs = () => {
-  const[searchTerm,setSearchTerm]=useState("");
-  const[filter, setFilter]=useState("All");
-  const[jobs, setJobs]=useState([]);
-  const [loading, setLoading]=useState(true);
-  const[error, setError]=useState(null);
-  useEffect(() => {
-    setLoading(true);
-    setError(null);
-    setTimeout(() => {
-    try {
-      setJobs(jobsData);
-      setLoading(false);
-    } catch (err) {
-      setError("Failed to load jobs");
-      setLoading(false);
-    }
-  }, 1000);
-}, []);
-if(error){
-  return(
-     <p className="text-center mt-10 text-red-500">
-      {error}
-     </p>
-  );
-}
-  const Jobs = [
+  const jobs = [
     {
       id: 1,
       title: "Frontend Developer",
@@ -76,6 +50,8 @@ if(error){
   ];
 
    
+  const[searchTerm,setSearchTerm]=useState("");
+  const[filter, setFilter]=useState("All");
   const[search,setSearch]=useState("");
   const filteredJobs = jobs.filter((job) => {
   const search = searchTerm.toLowerCase();
@@ -104,7 +80,7 @@ if(error){
       />
     </div>
 
-    <div className="flex justify-center gap-3 my-6">
+    <div className="flex justify-center gap-4 mb-8 flex-wrap">
       {["All", "Full-time", "Remote", "Internship"].map((item) => (
         <button
           key={item}
@@ -121,20 +97,16 @@ if(error){
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-  {loading ? (
-    <p className="text-center col-span-full mt-10">
-      Loading jobs...
-    </p>
-  ) : filteredJobs.length > 0 ? (
-    filteredJobs.map((job) => (
-      <JobCard key={job.id} {...job} />
-    ))
-  ) : (
-    <p className="text-center col-span-full text-gray-500">
-      No jobs match your search
-    </p>
-  )}
-</div>
+      {filteredJobs.length > 0 ? (
+        filteredJobs.map((job) => (
+          <JobCard key={job.id} {...job} />
+        ))
+      ) : (
+        <p className="text-center col-span-full text-gray-500">
+          No jobs found
+        </p>
+      )}
+    </div>
   </div>
 );
 };
