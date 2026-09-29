@@ -55,6 +55,15 @@ const dummyJobs = [
         description:
         "Analyze and interpret complex data sets to help inform business decisions.",
   },
+  {
+    id:7,
+        title:"DevOps Engineer",
+        company:"TCS",
+        location:"Chennai",
+        type:"Full-time",
+        description:
+        "Implement and manage CI/CD pipelines, cloud infrastructure, and automation tools.",
+  },
   ];
 
 const JobDetails = () => {

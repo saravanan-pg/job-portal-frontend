@@ -5,6 +5,7 @@ const companies = [
   { id: 4, name: "Zoho", location: "Coimbatore" },
   {id:  5, name: "Infosys", location:"Hyderabad"},
   {id: 6, name:"Deloitte", location:"Bangalore"},
+  {id: 7, name:"TCS", location:"Chennai"},
 ];
 
 const Companies = () => {
