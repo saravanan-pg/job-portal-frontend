@@ -47,6 +47,13 @@ const Jobs = () => {
         location:"Bangalore",
         type:"Internship"
     },
+    {
+      id:7,
+        title:"DevOps Engineer",
+        company:"TCS",
+        location:"Chennai",
+        type:"Full-time"
+    },
   ];
 
    
